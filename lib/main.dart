@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/auth/signIn.dart';
 import 'package:online_exams/auth/signUp.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: Signin(),
+      home: SignUp(),
     );
   }
 }

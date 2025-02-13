@@ -53,7 +53,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixIcon: widget.isSecure
             ? IconButton(
           icon: Icon(
-            _obSecureText ? Icons.visibility_off : Icons.visibility,color: Colors.white,
+            _obSecureText ? Icons.visibility_off : Icons.visibility,color: Colors.black,
           ),
           onPressed: () {
             setState(() {
