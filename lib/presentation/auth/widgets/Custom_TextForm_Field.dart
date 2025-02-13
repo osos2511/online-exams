@@ -38,6 +38,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintStyle: TextStyle(
           color: Color(0xff535353),
         ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(width: 2, color: Color(0xff535353)),
+        ),
+
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 2,color: Color(0xff535353)),
           borderRadius: BorderRadius.circular(10),
