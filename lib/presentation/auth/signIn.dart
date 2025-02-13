@@ -14,7 +14,7 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   final TextEditingController emailEditingController = TextEditingController();
   final TextEditingController passwordEditingController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // ✅ مفتاح الفورم
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isRememberMeChecked = false;
 
   @override
@@ -27,11 +27,10 @@ class SignInState extends State<SignIn> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
         child: Form(
-          key: _formKey, // ✅ ربط الفورم بالمفتاح
+          key: _formKey,
           child: Column(
             children: [
               SizedBox(height: screenHeight * 0.08),
-
               CustomTextFormField(
                 validator: (input) {
                   if (input == null || input.trim().isEmpty) {
@@ -82,7 +81,8 @@ class SignInState extends State<SignIn> {
                   Spacer(),
                   InkWell(
                     onTap: () {
-                      // يمكنك إضافة التنقل إلى صفحة إعادة تعيين كلمة المرور هنا
+                      Navigator.pushNamed(context, RoutesManager.forgetPasswordRoute);
+
                     },
                     child: Text(
                       'Forget password?',

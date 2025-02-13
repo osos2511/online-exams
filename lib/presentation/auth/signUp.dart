@@ -16,7 +16,7 @@ class SignUp extends StatelessWidget {
   final TextEditingController confirmPasswordController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // ✅ إضافة مفتاح الفورم
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class SignUp extends StatelessWidget {
             horizontal: screenWidth * 0.03,
           ),
           child: Form(
-            key: _formKey, // ✅ ربط المفتاح بالفورم
+            key: _formKey,
             child: Column(
               children: [
                 SizedBox(height: screenHeight * 0.04),
@@ -168,11 +168,10 @@ class SignUp extends StatelessWidget {
                 CustomMainButton(
                   text: 'Sign Up',
                   onPress: () {
-                    if (_formKey.currentState!.validate()) { // ✅ التحقق من صحة الإدخالات
-                      // ✅ إذا كانت البيانات صحيحة، يمكن تنفيذ تسجيل الحساب
-                      print("✅ Form is valid, proceed with sign-up.");
+                    if (_formKey.currentState!.validate()) {
+                      print("Form is valid, proceed with sign-up.");
                     } else {
-                      print("❌ Form is invalid, please check inputs.");
+                      print("Form is invalid, please check inputs.");
                     }
                   },
                 ),

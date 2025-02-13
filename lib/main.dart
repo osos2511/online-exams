@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: RoutesManager.signInRoute,
+      debugShowCheckedModeBanner: false,
+      initialRoute: RoutesManager.verifyOtpRoute,
       onGenerateRoute: RoutesManager.router,
 
     );
