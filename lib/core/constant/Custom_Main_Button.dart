@@ -7,9 +7,9 @@ final void Function()? onPress;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.red,minimumSize: Size(double.infinity, 50)),
+        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF02369C),minimumSize: Size(double.infinity, 50)),
         onPressed: onPress,
         child: Text(text,
-          style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500),));
+          style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 20),));
   }
 }
