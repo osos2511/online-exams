@@ -6,12 +6,13 @@ class CustomTextFormField extends StatefulWidget {
     required this.controller,
     this.isSecure = false,
     required this.hintText,
-    required this.labelText});
+    required this.labelText,this.onChanged });
   final String hintText;
   final String labelText;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final bool isSecure;
+   final void Function(String)? onChanged;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -28,6 +29,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
       validator: widget.validator,
       controller: widget.controller,
       obscureText: _obSecureText,

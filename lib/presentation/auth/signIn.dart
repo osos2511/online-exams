@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/presentation/auth/widgets/Custom_TextForm_Field.dart';
+import 'package:provider/provider.dart';
 import '../../core/constant/Custom_AppBar.dart';
 import '../../core/constant/Custom_Main_Button.dart';
 import '../../core/routes_manager.dart';
+import '../../provider/signIn_provider.dart';
+import 'widgets/Custom_TextForm_Field.dart';
 
-class SignIn extends StatefulWidget {
+class SignIn extends StatelessWidget {
   SignIn({super.key});
 
-  @override
-  State<SignIn> createState() => SignInState();
-}
-
-class SignInState extends State<SignIn> {
-  final TextEditingController emailEditingController = TextEditingController();
-  final TextEditingController passwordEditingController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool isRememberMeChecked = false;
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final provider = context.watch<SignInProvider>();
     return Scaffold(
       appBar: CustomAppbar(titleAppbar: 'Sign In'),
       body: Padding(
@@ -32,58 +26,32 @@ class SignInState extends State<SignIn> {
             children: [
               SizedBox(height: screenHeight * 0.08),
               CustomTextFormField(
-                validator: (input) {
-                  if (input == null || input.trim().isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-                      .hasMatch(input)) {
-                    return 'Enter a valid email address';
-                  }
-                  return null;
-                },
-                controller: emailEditingController,
+                validator: _validateEmail,
+                controller: provider.emailController,
                 hintText: 'Enter your email',
                 labelText: 'Email',
+                onChanged: provider.updateEmail,
               ),
-
               SizedBox(height: screenHeight * 0.02),
-
               CustomTextFormField(
-                validator: (input) {
-                  if (input == null || input.trim().isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  if (input.length < 8) {
-                    return 'Password should be at least 8 characters';
-                  }
-                  return null;
-                },
-                controller: passwordEditingController,
+                validator: _validatePassword,
+                controller: provider.passwordController,
                 hintText: 'Enter your password',
                 labelText: 'Password',
                 isSecure: true,
+                onChanged: provider.updatePassword,
               ),
-
               SizedBox(height: screenHeight * 0.02),
-
               Row(
                 children: [
                   Checkbox(
-                    value: isRememberMeChecked,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isRememberMeChecked = value!;
-                      });
-                    },
+                    value: provider.isRememberMeChecked,
+                    onChanged: provider.toggleRememberMe,
                   ),
                   Text('Remember me', style: TextStyle(fontSize: screenWidth * 0.04)),
                   Spacer(),
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, RoutesManager.forgetPasswordRoute);
-
-                    },
+                    onTap: () => Navigator.pushNamed(context, RoutesManager.forgetPasswordRoute),
                     child: Text(
                       'Forget password?',
                       style: TextStyle(
@@ -95,39 +63,27 @@ class SignInState extends State<SignIn> {
                   ),
                 ],
               ),
-
               SizedBox(height: screenHeight * 0.03),
-
               CustomMainButton(
                 text: 'Sign In',
-                onPress: () {
-                  if (_formKey.currentState!.validate()) { // ✅ التحقق من صحة البيانات
+                onPress: provider.isButtonEnabled
+                    ? () {
+                  if (_formKey.currentState!.validate()) {
                     print("✅ Form is valid, proceed with sign-in.");
                   } else {
                     print("❌ Form is invalid, please check inputs.");
                   }
-                },
+                }
+                    : null,
+                color: provider.buttonColor,
               ),
-
               SizedBox(height: screenHeight * 0.03),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Don\'t have an account?',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: screenWidth * 0.04,
-                    ),
-                  ),
+                  Text("Don't have an account?", style: TextStyle(fontSize: screenWidth * 0.04)),
                   TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        RoutesManager.signUpRoute,
-                      );
-                    },
+                    onPressed: () => Navigator.pushReplacementNamed(context, RoutesManager.signUpRoute),
                     child: Text(
                       'Sign Up',
                       style: TextStyle(
@@ -145,4 +101,20 @@ class SignInState extends State<SignIn> {
       ),
     );
   }
+
+  String? _validateEmail(String? input) {
+    if (input == null || input.trim().isEmpty) return 'Please enter your email';
+    if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}").hasMatch(input)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? input) {
+    if (input == null || input.trim().isEmpty) return 'Please enter your password';
+    if (input.length < 8) return 'Password should be at least 8 characters';
+    return null;
+  }
 }
+
+
