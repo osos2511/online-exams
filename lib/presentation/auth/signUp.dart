@@ -21,7 +21,6 @@ class SignUp extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.all(10),
           child: Column(
-            spacing: 15,
             children: [
               CustomTextFormField(
                   validator: (input) {
@@ -71,7 +70,7 @@ class SignUp extends StatelessWidget {
               ),
               CustomTextFormField(
                 hintText: 'Enter your email',
-                labelText: 'User Name',
+                labelText: 'Email',
                 controller: emailEditingController,
                 validator: (input) {
                   if (input == null || input.trim().isEmpty) {
