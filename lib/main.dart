@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/auth/signUp.dart';
+import 'package:online_exams/presentation/auth/signUp.dart';
 
 void main() {
   runApp(const MyApp());
