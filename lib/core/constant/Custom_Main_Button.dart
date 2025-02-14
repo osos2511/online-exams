@@ -11,7 +11,7 @@ class CustomMainButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: isButtonEnabled?  Color(0xff02369C):Colors.grey,
+        backgroundColor: isButtonEnabled?  const Color(0xff02369C):Colors.grey,
         minimumSize: const Size(double.infinity, 50),
       ),
       onPressed:onPress,

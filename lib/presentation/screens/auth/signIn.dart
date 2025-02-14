@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/constant/Custom_AppBar.dart';
-import '../../core/constant/Custom_Main_Button.dart';
-import '../../core/routes_manager.dart';
-import '../../provider/auth_provider/signIn_provider.dart';
-import 'widgets/Custom_TextForm_Field.dart';
+import '../../../core/constant/Custom_AppBar.dart';
+import '../../../core/constant/Custom_Main_Button.dart';
+import '../../../core/constant/Custom_TextForm_Field.dart';
+import '../../../core/routes_manager.dart';
+import '../../../provider/auth_provider/signIn_provider.dart';
+
 
 class SignIn extends StatelessWidget {
   SignIn({super.key});
@@ -17,11 +18,11 @@ class SignIn extends StatelessWidget {
       create: (context) => SignInProvider(),
       child: Consumer<SignInProvider>(
         builder: (context, provider, child) {
-          final screenWidth = MediaQuery.of(context).size.width;
-          final screenHeight = MediaQuery.of(context).size.height;
+          double screenWidth = MediaQuery.of(context).size.width;
+          double screenHeight = MediaQuery.of(context).size.height;
 
           return Scaffold(
-            appBar: CustomAppbar(titleAppbar: 'Sign In'),
+            appBar: const CustomAppbar(titleAppbar: 'Sign In'),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Form(
@@ -29,8 +30,6 @@ class SignIn extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: screenHeight * 0.08),
-
-
                     CustomTextFormField(
                       validator: provider.validateEmail,
                       controller: provider.emailController,
@@ -38,10 +37,7 @@ class SignIn extends StatelessWidget {
                       labelText: 'Email',
                       onChanged: provider.updateSignInEmail,
                     ),
-
                     SizedBox(height: screenHeight * 0.02),
-
-                    /// 🔒 حقل كلمة المرور
                     CustomTextFormField(
                       validator: provider.validatePassword,
                       controller: provider.passwordController,
@@ -50,10 +46,7 @@ class SignIn extends StatelessWidget {
                       isSecure: true,
                       onChanged: provider.updateSignInPassword,
                     ),
-
                     SizedBox(height: screenHeight * 0.02),
-
-                    /// ✅ "تذكرني" + "نسيت كلمة المرور؟"
                     Row(
                       children: [
                         Checkbox(
@@ -79,10 +72,7 @@ class SignIn extends StatelessWidget {
                         ),
                       ],
                     ),
-
                     SizedBox(height: screenHeight * 0.03),
-
-                    /// 🔵 زر تسجيل الدخول
                     CustomMainButton(
                       text: 'Sign In',
                       isButtonEnabled: provider.isButtonEnabled,
@@ -96,8 +86,6 @@ class SignIn extends StatelessWidget {
                     ),
 
                     SizedBox(height: screenHeight * 0.03),
-
-                    /// 🔗 "لا تملك حسابًا؟ سجل الآن"
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

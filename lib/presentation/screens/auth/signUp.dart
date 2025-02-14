@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/core/constant/Custom_Main_Button.dart';
-import 'package:online_exams/presentation/auth/widgets/Custom_TextForm_Field.dart';
+import 'package:online_exams/core/constant/Custom_TextForm_Field.dart';
 import 'package:online_exams/provider/auth_provider/signUp_provider.dart';
 import 'package:provider/provider.dart';
-import '../../core/constant/Custom_AppBar.dart';
-import '../../core/routes_manager.dart';
+
+import '../../../core/constant/Custom_AppBar.dart';
+import '../../../core/routes_manager.dart';
+
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});

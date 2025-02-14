@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/presentation/auth/forget_password.dart';
-import 'package:online_exams/presentation/auth/signIn.dart';
-import 'package:online_exams/presentation/auth/signUp.dart';
-import 'package:online_exams/presentation/auth/verify_otp.dart';
-
-import '../presentation/auth/reset_password.dart';
+import 'package:online_exams/presentation/screens/tabs/profile/update_password.dart';
+import '../presentation/screens/auth/forget_password.dart';
+import '../presentation/screens/auth/reset_password.dart';
+import '../presentation/screens/auth/signIn.dart';
+import '../presentation/screens/auth/signUp.dart';
+import '../presentation/screens/auth/verify_otp.dart';
+import '../presentation/screens/tabs/profile/edit_profile.dart';
 
 
 class RoutesManager{
@@ -13,6 +14,8 @@ class RoutesManager{
   static const String forgetPasswordRoute='/forgetPass';
   static const String resetPasswordRoute='/resetPass';
   static const String verifyOtpRoute='/verifyOtp';
+  static const String editProfileRoute='/editProfile';
+  static const String updatePasswordRoute='/updatePass';
 
 
   static Route<dynamic>? router(RouteSettings settings){
@@ -29,7 +32,12 @@ class RoutesManager{
       case resetPasswordRoute:{
         return MaterialPageRoute(builder: (context) =>  ResetPassword(),);
       } case verifyOtpRoute:{
-        return MaterialPageRoute(builder: (context) =>  VerifyOtp(),);
+        return MaterialPageRoute(builder: (context) =>  const VerifyOtp(),);
+      }
+      case editProfileRoute:{
+        return MaterialPageRoute(builder: (context) =>  EditProfile(),);
+      }case updatePasswordRoute:{
+        return MaterialPageRoute(builder: (context) =>   UpdatePassword(),);
       }
 
     }

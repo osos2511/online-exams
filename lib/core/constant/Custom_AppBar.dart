@@ -9,14 +9,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(40),
-      child: AppBar(
-         centerTitle: true,
-        leading: IconButton(onPressed: onPressAppbar, icon: Icon(iconAppbar)),
-        title: Text(
-          titleAppbar,style: TextStyle(color: Color(0xFF02369C),fontWeight: FontWeight.w500,fontSize: 30),
-        ),
+    return AppBar(
+       centerTitle: true,
+      leading: IconButton(onPressed: onPressAppbar, icon: Icon(iconAppbar)),
+      title: Text(
+        titleAppbar,style: TextStyle(color: Color(0xFF02369C),fontWeight: FontWeight.w500,fontSize: 30),
       ),
     );
   }
