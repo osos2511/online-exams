@@ -3,13 +3,13 @@ import 'package:online_exams/core/constant/Custom_Main_Button.dart';
 import 'package:online_exams/core/constant/Custom_TextForm_Field.dart';
 import 'package:online_exams/provider/auth_provider/signUp_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../../../core/constant/Custom_AppBar.dart';
+import '../../../../../core/routes_manager.dart';
+import '../../../../../data/model/general_response/User.dart';
+import '../viewModel/signUp_viewModel.dart';
 
-import '../../../core/constant/Custom_AppBar.dart';
-import '../../../core/routes_manager.dart';
-
-
-class SignUp extends StatelessWidget {
-  SignUp({super.key});
+class SignUpView extends StatelessWidget {
+  SignUpView({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -18,10 +18,13 @@ class SignUp extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return ChangeNotifierProvider(
-      create: (context) => SignUpProvider(),
-      child: Consumer<SignUpProvider>(
-        builder: (context, provider, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SignUpProvider()),
+        ChangeNotifierProvider(create: (context) => SignInViewModel()),
+      ],
+      child: Consumer2<SignUpProvider, SignInViewModel>(
+        builder: (context, signUpProvider, signUpVm, child) {
           return Scaffold(
             appBar: const CustomAppbar(titleAppbar: 'Sign Up'),
             body: SingleChildScrollView(
@@ -35,9 +38,9 @@ class SignUp extends StatelessWidget {
                     children: [
                       SizedBox(height: screenHeight * 0.04),
                       CustomTextFormField(
-                        onChanged: provider.updateUserName,
-                        validator: provider.validateUserName,
-                        controller: provider.userNameController,
+                        controller: signUpProvider.userNameController,
+                        onChanged: signUpProvider.updateUserName,
+                        validator: signUpProvider.validateUserName,
                         hintText: 'User Name',
                         labelText: 'Enter your user name',
                       ),
@@ -46,9 +49,9 @@ class SignUp extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomTextFormField(
-                              validator: provider.validateFirstName,
-                              onChanged: provider.updateFirstName,
-                              controller: provider.firstNameController,
+                              controller: signUpProvider.firstNameController,
+                              onChanged: signUpProvider.updateFirstName,
+                              validator: signUpProvider.validateFirstName,
                               hintText: 'Enter first name',
                               labelText: 'First Name',
                             ),
@@ -56,9 +59,9 @@ class SignUp extends StatelessWidget {
                           SizedBox(width: screenWidth * 0.03),
                           Expanded(
                             child: CustomTextFormField(
-                              validator: provider.validateLastName,
-                              controller: provider.lastNameController,
-                              onChanged: provider.updateLastName,
+                              controller: signUpProvider.lastNameController,
+                              onChanged: signUpProvider.updateLastName,
+                              validator: signUpProvider.validateLastName,
                               hintText: 'Enter last name',
                               labelText: 'Last Name',
                             ),
@@ -67,20 +70,20 @@ class SignUp extends StatelessWidget {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       CustomTextFormField(
+                        controller: signUpProvider.emailController,
+                        onChanged: signUpProvider.updateEmail,
+                        validator: signUpProvider.validateEmail,
                         hintText: 'Enter your email',
                         labelText: 'Email',
-                        controller: provider.emailController,
-                        validator: provider.validateEmail,
-                        onChanged: provider.updateEmail,
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       Row(
                         children: [
                           Expanded(
                             child: CustomTextFormField(
-                              validator: provider.validatePassword,
-                              onChanged: provider.updatePassword,
-                              controller: provider.passwordController,
+                              controller: signUpProvider.passwordController,
+                              onChanged: signUpProvider.updatePassword,
+                              validator: signUpProvider.validatePassword,
                               isSecure: true,
                               hintText: 'Enter your password',
                               labelText: 'Password',
@@ -89,9 +92,10 @@ class SignUp extends StatelessWidget {
                           SizedBox(width: screenWidth * 0.03),
                           Expanded(
                             child: CustomTextFormField(
-                              validator: provider.validateConfirmPassword,
-                              onChanged: provider.updateConfirmPassword,
-                              controller: provider.confirmPasswordController,
+                              controller:
+                                  signUpProvider.confirmPasswordController,
+                              onChanged: signUpProvider.updateConfirmPassword,
+                              validator: signUpProvider.validateConfirmPassword,
                               isSecure: true,
                               hintText: 'Re-enter your password',
                               labelText: 'Confirm Password',
@@ -101,25 +105,48 @@ class SignUp extends StatelessWidget {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       CustomTextFormField(
-                        validator: provider.validatePhoneNumber,
-                        onChanged: provider.updatePhoneNumber,
-                        controller: provider.phoneNumberController,
+                        controller: signUpProvider.phoneNumberController,
+                        onChanged: signUpProvider.updatePhoneNumber,
+                        validator: signUpProvider.validatePhoneNumber,
                         hintText: 'Enter phone number',
                         labelText: 'Phone Number',
                       ),
                       SizedBox(height: screenHeight * 0.03),
-                      CustomMainButton(
-                        isButtonEnabled: provider.isButtonEnabled,
-                        text: 'Sign Up',
-                        onPress: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.pushReplacementNamed(context, RoutesManager.signInRoute);
-                            print("Form is valid, proceed with sign-up.");
-                          } else {
-                            print("Form is invalid, please check inputs.");
-                          }
-                        },
-                      ),
+                      signUpVm.isLoading
+                          ? const CircularProgressIndicator()
+                          : CustomMainButton(
+                              isButtonEnabled: signUpProvider.isButtonEnabled,
+                              text: 'Sign Up',
+                              onPress: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  User newUser = User(
+                                    username:
+                                        signUpProvider.userNameController.text,
+                                    firstName:
+                                        signUpProvider.firstNameController.text,
+                                    lastName:
+                                        signUpProvider.lastNameController.text,
+                                    email: signUpProvider.emailController.text,
+                                    phone: signUpProvider
+                                        .phoneNumberController.text,
+                                    password:
+                                        signUpProvider.passwordController.text,
+                                    rePassword: signUpProvider
+                                        .confirmPasswordController.text,
+                                  );
+                                  await signUpVm.signUpViewModel(newUser);
+                                  if (signUpVm.errorMessage == null) {
+                                    Navigator.pushReplacementNamed(
+                                        context, RoutesManager.signInRoute);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text(signUpVm.errorMessage!)),
+                                    );
+                                  }
+                                }
+                              }),
                       SizedBox(height: screenHeight * 0.03),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
