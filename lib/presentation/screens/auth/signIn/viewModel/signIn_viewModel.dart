@@ -9,7 +9,7 @@ class SignInViewModel extends ChangeNotifier {
   String? errorMessage;
   GeneralResponse? generalResponse;
 
-  Future<void> signInViewModel(String email,String password) async {
+  Future<void> signIn(String email,String password) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();

@@ -50,6 +50,28 @@ class SignInView extends StatelessWidget {
                         hintText: 'Enter your password',
                         labelText: 'Password',
                       ),
+
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: signInProvider.isRememberMeChecked, // استخدم القيمة المحدثة
+                            onChanged: (bool? value) {
+                              signInProvider.toggleRememberMe(value);
+                            },
+                          ),
+                          Text('Remember me'),
+                          Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, RoutesManager.forgetPasswordRoute);
+                            },
+                            child: Text(
+                              'Forget password?',
+                              style: TextStyle(color: Colors.blue,decoration: TextDecoration.underline),
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(height: screenHeight * 0.03),
                       signInVm.isLoading
                           ? const CircularProgressIndicator()
@@ -58,7 +80,7 @@ class SignInView extends StatelessWidget {
                               text: 'Sign In',
                               onPress: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  await signInVm.signInViewModel(signInProvider.emailController.text,signInProvider.passwordController.text);
+                                  await signInVm.signIn(signInProvider.emailController.text,signInProvider.passwordController.text);
                                   if (signInVm.errorMessage == null) {
                                     Navigator.pushReplacementNamed(context,
                                         RoutesManager.editProfileRoute);

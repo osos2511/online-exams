@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:online_exams/core/constant/endPoints.dart';
 import 'package:online_exams/core/constant/result.dart';
+import 'package:online_exams/data/model/password_response/ForgetPasswordResponse.dart';
 
 import '../model/general_response/GeneralResponse.dart';
 import '../model/general_response/User.dart';
@@ -68,4 +69,43 @@ class ApiManager {
       return Error(exception: Exception("Request failed: ${e.toString()}"));
     }
   }
+
+  static Future<Result<ForgetPasswordResponse>> forgetPassword(
+      {required String email, String? verifyCode}) async {
+    final url = Uri.parse(EndPoints.forgetPasswordEndPoint);
+
+    print("🔍 Sending Request: Email=$email, ResetCode=$verifyCode");
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode({'email': email, 'resetCode': verifyCode}),
+      );
+
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      final parsedJson = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Success(data: ForgetPasswordResponse.fromJson(parsedJson));
+      } else {
+        return ServerError(
+          message: parsedJson["message"] ?? "Failed process",
+          code: response.statusCode.toString(),
+        );
+      }
+    } catch (e) {
+      return Error(exception: Exception("Request failed: ${e.toString()}"));
+    }
+  }
+
+
+
+
 }
+

@@ -134,7 +134,7 @@ class SignUpView extends StatelessWidget {
                                     rePassword: signUpProvider
                                         .confirmPasswordController.text,
                                   );
-                                  await signUpVm.signUpViewModel(newUser);
+                                  await signUpVm.signUp(newUser);
                                   if (signUpVm.errorMessage == null) {
                                     Navigator.pushReplacementNamed(
                                         context, RoutesManager.signInRoute);

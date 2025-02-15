@@ -4,20 +4,23 @@ import 'package:online_exams/core/routes_manager.dart';
 import 'package:online_exams/core/constant/Custom_TextForm_Field.dart';
 import 'package:online_exams/provider/auth_provider/password_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../../core/constant/Custom_Main_Button.dart';
+import '../viewModel/forget_password_viewModel.dart';
 
-import '../../../core/constant/Custom_Main_Button.dart';
-
-class ForgetPassword extends StatelessWidget {
-  ForgetPassword({super.key});
+class ForgetPasswordView extends StatelessWidget {
+  ForgetPasswordView({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PasswordProvider>(
-      create: (_) => PasswordProvider(),
-      child: Consumer<PasswordProvider>(
-        builder: (context, passwordProvider, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PasswordProvider()),
+        ChangeNotifierProvider(create: (_) => ForgetPasswordViewModel()),
+      ],
+      child: Consumer2<PasswordProvider, ForgetPasswordViewModel>(
+        builder: (context, passwordProvider, forgetPasswordVm, child) {
           double screenHeight = MediaQuery.of(context).size.height;
           double screenWidth = MediaQuery.of(context).size.width;
 
@@ -48,15 +51,6 @@ class ForgetPassword extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.02),
-                    Text(
-                      'Please enter your email associated with your account',
-                      style: TextStyle(
-                        color: Color(0xff535353),
-                        fontSize: screenWidth * 0.04,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: screenHeight * 0.03),
                     CustomTextFormField(
                       onChanged: passwordProvider.updateEmail,
                       validator: passwordProvider.validateEmail,
@@ -65,15 +59,22 @@ class ForgetPassword extends StatelessWidget {
                       labelText: 'Email',
                     ),
                     SizedBox(height: screenHeight * 0.05),
-                    CustomMainButton(
+
+                    forgetPasswordVm.isLoading
+                        ? const CircularProgressIndicator()
+                        : CustomMainButton(
                       text: 'Continue',
                       isButtonEnabled: passwordProvider.isButtonEnabled,
-                      onPress: () {
-                        if (_formKey.currentState!.validate()) {
-                          print("✅ Email is valid, proceed with password reset.");
-                          Navigator.pushNamed(context, RoutesManager.verifyOtpRoute);
-                        } else {
-                          print("❌ Invalid email, please check your input.");
+                      onPress: () async {
+                        String email = passwordProvider.emailController.text.trim();
+
+                        await forgetPasswordVm.forgetPassword(email: email);
+
+                        if (forgetPasswordVm.errorMessage == null) {
+                          Navigator.pushNamed(
+                            context,
+                            RoutesManager.verifyOtpRoute,
+                          );
                         }
                       },
                     ),
@@ -87,4 +88,3 @@ class ForgetPassword extends StatelessWidget {
     );
   }
 }
-
