@@ -8,35 +8,32 @@ class ForgetPasswordViewModel extends ChangeNotifier {
   String? errorMessage;
   ForgetPasswordResponse? forgetPasswordResponse;
 
-  Future<void> forgetPassword({required String email, String? verifyCode}) async {
+  Future<void> forgetPassword(String email) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
 
-    print("🔍 Sending Request: Email=$email, VerifyCode=$verifyCode");
+    print("🔍 Sending Request: Email=$email");
 
-    var result = await ApiManager.forgetPassword(email: email, verifyCode: verifyCode);
+    var result = await ApiManager.forgetPassword(email);
 
     switch (result) {
       case Success<ForgetPasswordResponse>():
         forgetPasswordResponse = result.data;
         isLoading = false;
         notifyListeners();
-        print("✅ Success: ${forgetPasswordResponse?.resetCode}");
         break;
 
       case ServerError<ForgetPasswordResponse>():
         errorMessage = result.message;
         isLoading = false;
         notifyListeners();
-        print("❌ Server Error: $errorMessage");
         break;
 
       case Error<ForgetPasswordResponse>():
         errorMessage = result.exception.toString();
         isLoading = false;
         notifyListeners();
-        print("❌ Error: $errorMessage");
         break;
     }
   }

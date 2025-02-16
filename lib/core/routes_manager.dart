@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/profile/update_password.dart';
-import '../presentation/screens/forgetPassword/view/forget_password_view.dart';
-import '../presentation/screens/auth/reset_password.dart';
+import '../presentation/screens/auth/verifyOtp/view/verify_view.dart';
+import '../presentation/screens/auth/forgetPassword/view/forget_password_view.dart';
+import '../presentation/screens/auth/resetPssword/view/reset_password_view.dart';
 import '../presentation/screens/auth/signIn/view/signIn_view.dart';
 import '../presentation/screens/auth/signUp/view/signUp_view.dart';
-import '../presentation/screens/auth/verify_otp.dart';
 import '../presentation/screens/tabs/profile/edit_profile.dart';
 
 class RoutesManager {
@@ -25,10 +25,9 @@ class RoutesManager {
       case forgetPasswordRoute:
         return MaterialPageRoute(builder: (context) => ForgetPasswordView());
       case resetPasswordRoute:
-        return MaterialPageRoute(builder: (context) => ResetPassword());
+        return MaterialPageRoute(builder: (context) => ResetPasswordView());
       case verifyOtpRoute:
-        final email = settings.arguments as String?; // استخراج البريد الإلكتروني من arguments
-        return MaterialPageRoute(builder: (context) => VerifyOtp(email: email));
+        return MaterialPageRoute(builder: (context) => const VerifyView());
       case editProfileRoute:
         return MaterialPageRoute(builder: (context) => EditProfile());
       case updatePasswordRoute:

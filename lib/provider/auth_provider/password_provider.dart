@@ -24,22 +24,22 @@ class PasswordProvider extends ChangeNotifier {
 
   void updatePassword(String input) {
     passwordController.text=input;
-    validatePasswordForm();
+    validateResetPasswordForm();
     notifyListeners();
   }
 
-  void updateConfirmPassword(String input) {
-    confirmPasswordController.text=input;
-    validatePasswordForm();
+  void updateEmailResetPass(String input) {
+    emailController.text=input;
+    validateResetPasswordForm();
     notifyListeners();
   }
 
 
-  void validatePasswordForm() {
+  void validateResetPasswordForm() {
     bool isPasswordValid = validatePassword(passwordController.text) == null;
-    bool isConfirmPasswordValid = validateConfirmPassword(confirmPasswordController.text) == null;
+    bool isEmailValid = validateEmail(emailController.text) == null;
 
-    if (isPasswordValid && isConfirmPasswordValid) {
+    if (isPasswordValid && isEmailValid) {
       isButtonEnabled = true;
     } else {
       isButtonEnabled = false;

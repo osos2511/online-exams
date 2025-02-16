@@ -4,21 +4,24 @@ class ForgetPasswordResponse {
   int? code;
   String? resetCode;
   String? status;
+  String? token;
 
   ForgetPasswordResponse({
     this.message,
     this.info,
     this.code,
     this.resetCode,
-    this.status
+    this.status,
+    this.token
   });
 
   ForgetPasswordResponse.fromJson(dynamic json) {
     message = json['message'];
     info = json['info'];
     code = json['code'];
-    resetCode = json['resetCode']?.toString(); // ✅ تحويل `resetCode` إلى String لتجنب المشاكل
+    resetCode = json['resetCode']?.toString();
     status = json['status'];
+    token=json['token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +31,7 @@ class ForgetPasswordResponse {
     map['code'] = code;
     map['resetCode'] = resetCode;
     map['status'] = status;
+    map['token']=token;
     return map;
   }
 }

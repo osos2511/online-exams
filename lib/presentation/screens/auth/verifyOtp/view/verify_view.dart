@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:online_exams/core/constant/Custom_AppBar.dart';
-import 'package:online_exams/core/routes_manager.dart';
+import 'package:online_exams/presentation/screens/auth/verifyOtp/viewModel/verify_viewModel.dart';
 import 'package:provider/provider.dart';
-import '../../../provider/auth_provider/password_provider.dart';
-import '../forgetPassword/viewModel/forget_password_viewModel.dart';
+import '../../../../../core/routes_manager.dart';
+import '../../../../../provider/auth_provider/password_provider.dart';
 
-class VerifyOtp extends StatelessWidget {
-  const VerifyOtp({super.key, String? email});
+class VerifyView extends StatelessWidget {
+  const VerifyView({super.key, String? email});
 
   @override
   Widget build(BuildContext context) {
-    // استخراج البريد الإلكتروني من arguments
-    final String email = ModalRoute.of(context)?.settings.arguments as String? ?? '';
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ForgetPasswordViewModel()),
+        ChangeNotifierProvider(create: (_) => VerifyViewModel()),
         ChangeNotifierProvider(create: (_) => PasswordProvider()),
       ],
-      child: Consumer2<ForgetPasswordViewModel, PasswordProvider>(
-        builder: (context, passwordViewModel, passwordProvider, child) {
+      child: Consumer2<VerifyViewModel, PasswordProvider>(
+        builder: (context, verifyViewModel, passwordProvider, child) {
           double screenHeight = MediaQuery.of(context).size.height;
           double screenWidth = MediaQuery.of(context).size.width;
 
@@ -57,32 +55,27 @@ class VerifyOtp extends StatelessWidget {
                       fontSize: 20,
                     ),
                     numberOfFields: 6,
-                    focusedBorderColor: passwordViewModel.errorMessage != null
+                    focusedBorderColor: verifyViewModel.errorMessage != null
                         ? Colors.red
                         : const Color(0xff02369C),
-                    borderColor: passwordViewModel.errorMessage != null
+                    borderColor: verifyViewModel.errorMessage != null
                         ? Colors.red
                         : const Color(0xff02369C),
                     showFieldAsBox: true,
                     onSubmit: (String enteredCode) async {
-                      await passwordViewModel.forgetPassword(
-                        email: email,
-                        verifyCode: enteredCode,
-                      );
-
-                      if (passwordViewModel.errorMessage == null) {
+                      await verifyViewModel.verifyOtp(enteredCode);
+                      if (verifyViewModel.errorMessage == null) {
                         Navigator.pushNamed(
                           context,
                           RoutesManager.resetPasswordRoute,
-                          arguments: email,
                         );
                       }
                     },
                   ),
                   SizedBox(height: screenHeight * 0.02),
-                  if (passwordViewModel.errorMessage != null)
+                  if (verifyViewModel.errorMessage != null)
                     Text(
-                      passwordViewModel.errorMessage!,
+                      verifyViewModel.errorMessage!,
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: screenWidth * 0.04,
@@ -96,8 +89,8 @@ class VerifyOtp extends StatelessWidget {
                       const Text('Didn\'t receive code? '),
                       InkWell(
                         onTap: () {
-                          passwordViewModel.errorMessage = null;
-                          passwordViewModel.notifyListeners();
+                          verifyViewModel.errorMessage = null;
+                          verifyViewModel.notifyListeners();
                         },
                         child: const Text(
                           'Send again',

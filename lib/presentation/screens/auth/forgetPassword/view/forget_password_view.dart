@@ -4,7 +4,7 @@ import 'package:online_exams/core/routes_manager.dart';
 import 'package:online_exams/core/constant/Custom_TextForm_Field.dart';
 import 'package:online_exams/provider/auth_provider/password_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/constant/Custom_Main_Button.dart';
+import '../../../../../core/constant/Custom_Main_Button.dart';
 import '../viewModel/forget_password_viewModel.dart';
 
 class ForgetPasswordView extends StatelessWidget {
@@ -68,7 +68,7 @@ class ForgetPasswordView extends StatelessWidget {
                       onPress: () async {
                         String email = passwordProvider.emailController.text.trim();
 
-                        await forgetPasswordVm.forgetPassword(email: email);
+                        await forgetPasswordVm.forgetPassword(email);
 
                         if (forgetPasswordVm.errorMessage == null) {
                           Navigator.pushNamed(

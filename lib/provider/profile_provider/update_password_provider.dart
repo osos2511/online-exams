@@ -6,7 +6,7 @@ class UpdatePasswordProvider extends PasswordProvider {
 
   void updateCurrentPassword(String input) {
     currentPasswordController.text = input;
-    validatePasswordForm();
+    validateResetPasswordForm();
     notifyListeners();
   }
 
@@ -25,7 +25,7 @@ class UpdatePasswordProvider extends PasswordProvider {
 
   /// ✅ التحقق من جميع الحقول (بما في ذلك كلمة المرور الحالية)
   @override
-  void validatePasswordForm() {
+  void validateResetPasswordForm() {
     bool isCurrentPasswordValid = validateCurrentPassword(currentPasswordController.text) == null;
     bool isPasswordValid = validatePassword(passwordController.text) == null;
     bool isConfirmPasswordValid = validateConfirmPassword(confirmPasswordController.text) == null;
@@ -38,7 +38,6 @@ class UpdatePasswordProvider extends PasswordProvider {
     notifyListeners();
   }
 
-  /// ✅ تعطيل التحقق من البريد الإلكتروني في صفحة تحديث كلمة المرور
   @override
   void updateEmail(String input) {}
 

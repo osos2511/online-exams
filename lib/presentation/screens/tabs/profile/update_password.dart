@@ -46,7 +46,7 @@ class UpdatePassword extends StatelessWidget {
                     SizedBox(height: screenHeight * 0.02),
                     CustomTextFormField(
                       validator: provider.validateConfirmPassword,
-                      onChanged: provider.updateConfirmPassword,
+                      onChanged: provider.updateEmailResetPass,
                       controller: provider.confirmPasswordController,
                       hintText: 'Re-enter your password',
                       labelText: 'Confirm Password',
