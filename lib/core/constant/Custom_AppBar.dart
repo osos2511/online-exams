@@ -11,7 +11,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
        centerTitle: true,
-      leading: IconButton(onPressed: onPressAppbar, icon: Icon(iconAppbar)),
+      leading: IconButton(onPressed: onPressAppbar, icon: Icon(iconAppbar),color: Color(0xFF02369C),),
       title: Text(
         titleAppbar,style: TextStyle(color: Color(0xFF02369C),fontWeight: FontWeight.w500,fontSize: 30),
       ),

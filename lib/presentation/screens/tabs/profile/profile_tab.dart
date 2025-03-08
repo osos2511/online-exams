@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes_manager.dart';
 import '../../../../provider/profile_provider/edit_profile_provider.dart';
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class ProfileTab extends StatelessWidget {
+  ProfileTab({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -81,8 +81,7 @@ class EditProfile extends StatelessWidget {
                         labelText: 'Password',
                         suffixText: 'Change',
                         onSuffixTap: () {
-                          print("Change password tapped!");
-                          // Add navigation or action here
+                        Navigator.pushReplacementNamed(context, RoutesManager.updatePasswordRoute);
                         },
                       ),
                       SizedBox(height: screenHeight * 0.02),

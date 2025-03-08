@@ -20,7 +20,12 @@ class UpdatePassword extends StatelessWidget {
       child: Consumer<UpdatePasswordProvider>(
         builder: (context, provider, child) {
           return Scaffold(
-            appBar: const CustomAppbar(titleAppbar: 'Update Password'),
+            appBar:  CustomAppbar(
+                onPressAppbar: (){
+                  Navigator.pushNamed(context, RoutesManager.editProfileRoute);
+                },
+                iconAppbar: Icons.arrow_back,
+                titleAppbar: 'Update Password'),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
               child: Form(

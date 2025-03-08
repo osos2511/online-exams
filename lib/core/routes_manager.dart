@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:online_exams/presentation/screens/home_screen.dart';
 import 'package:online_exams/presentation/screens/tabs/profile/update_password.dart';
 import '../presentation/screens/auth/verifyOtp/view/verify_view.dart';
 import '../presentation/screens/auth/forgetPassword/view/forget_password_view.dart';
 import '../presentation/screens/auth/resetPssword/view/reset_password_view.dart';
 import '../presentation/screens/auth/signIn/view/signIn_view.dart';
 import '../presentation/screens/auth/signUp/view/signUp_view.dart';
-import '../presentation/screens/tabs/profile/edit_profile.dart';
+import '../presentation/screens/tabs/explore/language_page.dart';
+import '../presentation/screens/tabs/profile/profile_tab.dart';
 
 class RoutesManager {
   static const String signUpRoute = '/register';
@@ -13,8 +15,10 @@ class RoutesManager {
   static const String forgetPasswordRoute = '/forgetPass';
   static const String resetPasswordRoute = '/resetPass';
   static const String verifyOtpRoute = '/verifyOtp';
+  static const String homeRoute = '/home';
   static const String editProfileRoute = '/editProfile';
   static const String updatePasswordRoute = '/updatePass';
+  static const String languageRoute = '/language';
 
   static Route<dynamic>? router(RouteSettings settings) {
     switch (settings.name) {
@@ -29,9 +33,13 @@ class RoutesManager {
       case verifyOtpRoute:
         return MaterialPageRoute(builder: (context) => const VerifyView());
       case editProfileRoute:
-        return MaterialPageRoute(builder: (context) => EditProfile());
+        return MaterialPageRoute(builder: (context) => ProfileTab());
       case updatePasswordRoute:
         return MaterialPageRoute(builder: (context) => UpdatePassword());
+        case homeRoute:
+        return MaterialPageRoute(builder: (context) => HomeScreen());
+        case languageRoute:
+        return MaterialPageRoute(builder: (context) => LanguagePage(subject: '',));
     }
     return null;
   }
