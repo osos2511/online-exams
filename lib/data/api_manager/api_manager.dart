@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:online_exams/core/constant/endPoints.dart';
 import 'package:online_exams/core/constant/result.dart';
 import 'package:online_exams/data/model/password_response/ForgetPasswordResponse.dart';
+import 'package:online_exams/data/model/profile_response/ProfileResponse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/general_response/GeneralResponse.dart';
 import '../model/general_response/User.dart';
-
 
 class ApiManager {
   static Future<Result<GeneralResponse>> signUp(User user) async {
@@ -37,26 +38,26 @@ class ApiManager {
     }
   }
 
-  static Future<Result<GeneralResponse>> signIn(String email,String password)async{
-    final uri=Uri.parse(EndPoints.signInEndPoint);
+  static Future<Result<GeneralResponse>> signIn(String email, String password) async {
+    final uri = Uri.parse(EndPoints.signInEndPoint);
     try {
       final response = await http.post(
-          uri,
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"},
-          body: jsonEncode(
-            {
-              'email':email,
-              'password':password
-            }
-          ),
+        uri,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode({'email': email, 'password': password}),
       );
+
       print("Response Status Code: ${response.statusCode}");
       print("Response Body: ${response.body}");
+
       final parsedJson = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+        String token = parsedJson["token"];
+        await saveToken(token);
         return Success(data: GeneralResponse.fromJson(parsedJson));
       } else {
         return ServerError(
@@ -69,9 +70,29 @@ class ApiManager {
     }
   }
 
-  static Future<Result<ForgetPasswordResponse>> forgetPassword(String email) async {
-    final url = Uri.parse(EndPoints.forgetPasswordEndPoint);
+  static Future<void> saveToken(String token) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('auth_token', token);
+    } catch (e) {
+      throw Exception("Failed to save token: $e");
+    }
+  }
 
+  static Future<String?> getToken() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString('auth_token');
+    } catch (e) {
+      throw Exception("Failed to get token: $e");
+    }
+  }
+
+
+
+  static Future<Result<ForgetPasswordResponse>> forgetPassword(
+      String email) async {
+    final url = Uri.parse(EndPoints.forgetPasswordEndPoint);
 
     try {
       final response = await http.post(
@@ -101,7 +122,8 @@ class ApiManager {
     }
   }
 
-  static Future<Result<ForgetPasswordResponse>>verifyOtpPassword(String verifyOtp) async {
+  static Future<Result<ForgetPasswordResponse>> verifyOtpPassword(
+      String verifyOtp) async {
     final url = Uri.parse(EndPoints.verifyOtpEndPoint);
 
     print("ResetCode=$verifyOtp");
@@ -134,8 +156,8 @@ class ApiManager {
     }
   }
 
-
-  static Future<Result<ForgetPasswordResponse>>resetPassword(String email,String newPassword) async {
+  static Future<Result<ForgetPasswordResponse>> resetPassword(String email,
+      String newPassword) async {
     final url = Uri.parse(EndPoints.resetPasswordEndPoint);
 
     print("email=$email newPass=$newPassword");
@@ -147,7 +169,7 @@ class ApiManager {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: jsonEncode({'email': email,'newPassword':newPassword}),
+        body: jsonEncode({'email': email, 'newPassword': newPassword}),
       );
 
       print("Response Status Code: ${response.statusCode}");
@@ -169,6 +191,41 @@ class ApiManager {
   }
 
 
+  static Future<Result<ProfileResponse>> getUserInfo() async {
+    // جلب التوكن من SharedPreferences
+    String? token = await ApiManager.getToken();
 
+    if (token == null || token.isEmpty) {
+      return Error(exception: Exception("Token is missing or invalid"));
+    }
+    print("Token: $token"); // يجب أن يطابق الرمز في Postman
+
+    final url = Uri.parse(EndPoints.getLoggedUserInfoEndPoint);
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "token": token, // إرسال التوكن في رأس الطلب
+        },
+      );
+
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      final parsedJson = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Success(data: ProfileResponse.fromJson(parsedJson));
+      } else {
+        return ServerError(
+          message: parsedJson["message"] ?? "Failed to fetch user info",
+          code: response.statusCode.toString(),
+        );
+      }
+    } catch (e) {
+      return Error(exception: Exception("Request failed: ${e.toString()}"));
+    }
+  }
 }
-

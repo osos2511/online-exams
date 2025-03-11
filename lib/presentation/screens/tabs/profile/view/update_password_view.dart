@@ -3,11 +3,11 @@ import 'package:online_exams/core/constant/Custom_AppBar.dart';
 import 'package:online_exams/core/constant/Custom_TextForm_Field.dart';
 import 'package:online_exams/provider/profile_provider/update_password_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../core/constant/Custom_Main_Button.dart';
-import '../../../../core/routes_manager.dart';
+import '../../../../../core/constant/Custom_Main_Button.dart';
+import '../../../../../core/routes_manager.dart';
 
-class UpdatePassword extends StatelessWidget {
-   UpdatePassword({super.key});
+class UpdatePasswordView extends StatelessWidget {
+   UpdatePasswordView({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

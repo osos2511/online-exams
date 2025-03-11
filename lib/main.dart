@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_exams/core/routes_manager.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -10,12 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: RoutesManager.homeRoute,
+      initialRoute: RoutesManager.signInRoute,
       onGenerateRoute: RoutesManager.router,
-
     );
   }
 }
-

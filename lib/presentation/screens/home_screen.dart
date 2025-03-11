@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/explore_tab.dart';
-import 'package:online_exams/presentation/screens/tabs/profile/profile_tab.dart';
+import 'package:online_exams/presentation/screens/tabs/profile/view/profile_view.dart';
 import 'package:online_exams/presentation/screens/tabs/results/results_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     const ExploreTab(),
     const ResultsTab(),
-     ProfileTab(),
+     ProfileView(),
   ];
 
   void _onItemTapped(int index) {

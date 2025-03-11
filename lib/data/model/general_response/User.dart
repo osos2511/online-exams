@@ -7,6 +7,7 @@ class User {
   String? password;
   String? rePassword;
 
+
   User({
     this.username,
     this.firstName,
@@ -15,6 +16,7 @@ class User {
     this.phone,
     this.password,
     this.rePassword,
+
   });
 
   User.fromJson(dynamic json) {
@@ -25,17 +27,19 @@ class User {
     phone = json['phone'];
     password = json['password'];
     rePassword = json['rePassword'];
+
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'username': username,
+    'username': username,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
       'phone': phone,
       'password': password,
       'rePassword': rePassword,
+
     };
   }
 }

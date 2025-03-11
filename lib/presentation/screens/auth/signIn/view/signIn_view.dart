@@ -54,7 +54,7 @@ class SignInView extends StatelessWidget {
                       Row(
                         children: [
                           Checkbox(
-                            value: signInProvider.isRememberMeChecked, // استخدم القيمة المحدثة
+                            value: signInProvider.isRememberMeChecked,
                             onChanged: (bool? value) {
                               signInProvider.toggleRememberMe(value);
                             },
@@ -67,7 +67,7 @@ class SignInView extends StatelessWidget {
                             },
                             child: Text(
                               'Forget password?',
-                              style: TextStyle(color: Colors.blue,decoration: TextDecoration.underline),
+                              style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                             ),
                           ),
                         ],
@@ -76,24 +76,24 @@ class SignInView extends StatelessWidget {
                       signInVm.isLoading
                           ? const CircularProgressIndicator()
                           : CustomMainButton(
-                              isButtonEnabled: signInProvider.isButtonEnabled,
-                              text: 'Sign In',
-                              onPress: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await signInVm.signIn(signInProvider.emailController.text,signInProvider.passwordController.text);
-                                  if (signInVm.errorMessage == null) {
-                                    Navigator.pushReplacementNamed(context,
-                                        RoutesManager.editProfileRoute);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(signInVm.errorMessage!),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              }),
+                        isButtonEnabled: signInProvider.isButtonEnabled,
+                        text: 'Sign In',
+                        onPress: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await signInVm.signIn(signInProvider.emailController.text, signInProvider.passwordController.text);
+                            if (signInVm.errorMessage == null && context.mounted) {
+                              Navigator.pushReplacementNamed(context, RoutesManager.homeRoute);
+                            } else if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(signInVm.errorMessage!),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
                       SizedBox(height: screenHeight * 0.03),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +103,7 @@ class SignInView extends StatelessWidget {
                             style: TextStyle(fontSize: screenWidth * 0.04),
                           ),
                           TextButton(
-                            onPressed: () => Navigator.pushReplacementNamed(
-                                context, RoutesManager.signUpRoute),
+                            onPressed: () => Navigator.pushReplacementNamed(context, RoutesManager.signUpRoute),
                             child: Text(
                               'Sign Up',
                               style: TextStyle(
