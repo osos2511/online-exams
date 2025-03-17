@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-
-
 class SubjectCard extends StatelessWidget {
   final String subject;
   final String urlImage;

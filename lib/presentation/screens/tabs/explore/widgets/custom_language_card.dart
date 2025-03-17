@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LanguageCard extends StatelessWidget {
-  const LanguageCard({super.key});
+  const LanguageCard({super.key,required this.title,required this.numOfQuestion,required this.quizDuration});
+final String? title;
+final num? numOfQuestion;
+final num? quizDuration;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +22,22 @@ class LanguageCard extends StatelessWidget {
             children: [
               Image.asset('assets/languageImg.png', width: 50, height: 60),
               const SizedBox(width: 10),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'High level',
+                     Text(
+                      title??'',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text('20 Question'),
-                    Text('From: 1.00  To: 6.00'),
+                    const SizedBox(width: 10),
+
+                    Text('Questions: ${numOfQuestion?.toString() ?? "N/A"}'),
                   ],
                 ),
               ),
-              const Text(
-                '30 Minutes',
+               Text(
+                 '${quizDuration?.toString() ?? "0"} min',
                 style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             ],

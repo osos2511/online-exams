@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:online_exams/core/constant/endPoints.dart';
 import 'package:online_exams/core/constant/result.dart';
+import 'package:online_exams/data/model/exams_response/ExamsResponse.dart';
 import 'package:online_exams/data/model/password_response/ForgetPasswordResponse.dart';
 import 'package:online_exams/data/model/profile_response/ProfileResponse.dart';
 import 'package:online_exams/data/model/subjects_response/SubjectsResponse.dart';
@@ -88,8 +89,6 @@ class ApiManager {
       throw Exception("Failed to get token: $e");
     }
   }
-
-
 
   static Future<Result<ForgetPasswordResponse>> forgetPassword(String email) async {
     final url = Uri.parse(EndPoints.forgetPasswordEndPoint);
@@ -188,7 +187,6 @@ class ApiManager {
     }
   }
 
-
   static Future<Result<ProfileResponse>> getUserInfo() async {
     // جلب التوكن من SharedPreferences
     String? token = await ApiManager.getToken();
@@ -248,6 +246,39 @@ class ApiManager {
       final parsedJson = jsonDecode(response.body);
       if(response.statusCode==200){
         return Success(data: SubjectsResponse.fromJson(parsedJson));
+      }else{
+        return ServerError(
+          message: parsedJson["message"] ?? "Failed to fetch user info",
+          code: response.statusCode.toString(),
+        );
+      }
+    }catch (e) {
+      return Error(exception: Exception("Request failed: ${e.toString()}"));
+    }
+
+  }
+
+
+  static Future<Result<ExamsResponse>> getAllExamsOnSubject(String subjectId)async{
+    String? token = await ApiManager.getToken();
+
+    if (token == null || token.isEmpty) {
+      return Error(exception: Exception("Token is missing or invalid"));
+    }
+    print("Token: $token");
+    final url = Uri.parse('${EndPoints.getAllExamsOnSubjectEndPoint}?subject=$subjectId');
+    try{
+      final response= await http.get(url,
+        headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "token": token,
+      }, );
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      final parsedJson = jsonDecode(response.body);
+      if(response.statusCode==200){
+        return Success(data: ExamsResponse.fromJson(parsedJson));
       }else{
         return ServerError(
           message: parsedJson["message"] ?? "Failed to fetch user info",

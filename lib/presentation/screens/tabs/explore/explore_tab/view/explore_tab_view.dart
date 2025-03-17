@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/widgets/custom_card.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../core/constant/Custom_AppBar.dart';
-import '../../language_page.dart';
+import '../../exams/view/exams_view.dart';
 import '../viewModel/explore_tab_viewModel.dart';
 
 class ExploreTab extends StatelessWidget {
@@ -64,7 +64,7 @@ class ExploreTab extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => LanguagePage(subject: subject.name ?? 'Unknown'),
+                                builder: (context) => ExamsView(subjectId: subject.id ?? '',subjectName: subject.name ?? 'Unknown',),
                               ),
                             );
                           },
