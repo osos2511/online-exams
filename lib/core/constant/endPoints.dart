@@ -5,5 +5,6 @@ class EndPoints{
   static const String verifyOtpEndPoint='https://exam.elevateegy.com/api/v1/auth/verifyResetCode';
   static const String resetPasswordEndPoint='https://exam.elevateegy.com/api/v1/auth/resetPassword';
   static const String getLoggedUserInfoEndPoint='https://exam.elevateegy.com/api/v1/auth/profileData';
+  static const String getAllSubjectsEndPoint='https://exam.elevateegy.com/api/v1/subjects';
 
 }

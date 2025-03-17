@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/presentation/screens/tabs/explore/explore_tab.dart';
+import 'package:online_exams/presentation/screens/tabs/explore/explore_tab/view/explore_tab_view.dart';
 import 'package:online_exams/presentation/screens/tabs/profile/view/profile_view.dart';
 import 'package:online_exams/presentation/screens/tabs/results/results_tab.dart';
 

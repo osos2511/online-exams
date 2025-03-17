@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class SubjectCard extends StatelessWidget {
   final String subject;
-  final IconData icon;
+  final String urlImage;
   final VoidCallback onPress;
 
   const SubjectCard({
     super.key,
     required this.subject,
-    required this.icon,
+    required this.urlImage,
     required this.onPress,
   });
 
@@ -23,7 +23,7 @@ class SubjectCard extends StatelessWidget {
         margin: EdgeInsets.only(top: 20,bottom: 20),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: ListTile(
-          leading: Icon(icon, size: 40, color: Colors.blueAccent),
+          leading: Image.network(urlImage,width: 50,fit: BoxFit.fill,),
           title: Text(subject, style: const TextStyle(fontSize: 20)),
           onTap: onPress,
         ),
