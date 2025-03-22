@@ -266,7 +266,41 @@ class ApiManager {
       return Error(exception: Exception("Token is missing or invalid"));
     }
     print("Token: $token");
-    final url = Uri.parse('${EndPoints.getAllExamsOnSubjectEndPoint}?subject=$subjectId');
+    final url = Uri.parse('${EndPoints.getAllExamsEndPoint}?subject=$subjectId');
+    try{
+      final response= await http.get(url,
+        headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "token": token,
+      }, );
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      final parsedJson = jsonDecode(response.body);
+      if(response.statusCode==200){
+        return Success(data: ExamsResponse.fromJson(parsedJson));
+      }else{
+        return ServerError(
+          message: parsedJson["message"] ?? "Failed to fetch user info",
+          code: response.statusCode.toString(),
+        );
+      }
+    }catch (e) {
+      return Error(exception: Exception("Request failed: ${e.toString()}"));
+    }
+
+  }
+
+
+
+  static Future<Result<ExamsResponse>> getExamById(String examId)async{
+    String? token = await ApiManager.getToken();
+
+    if (token == null || token.isEmpty) {
+      return Error(exception: Exception("Token is missing or invalid"));
+    }
+    print("Token: $token");
+    final url = Uri.parse('${EndPoints.getAllExamsEndPoint}/$examId');
     try{
       final response= await http.get(url,
         headers: {

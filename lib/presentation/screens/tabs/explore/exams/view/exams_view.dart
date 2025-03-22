@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/exams/viewModel/exams_viewModel.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/custom_language_card.dart';
+import '../../exam/view/exam_view.dart';
+import '../../widgets/custom_exam_card.dart';
 
 class ExamsView extends StatelessWidget {
   final String subjectId;
@@ -41,10 +42,18 @@ class ExamsView extends StatelessWidget {
                 itemCount: viewModel.response?.exams?.length ?? 0,
                 itemBuilder: (context, index) {
                   final exam = viewModel.response!.exams![index];
-                  return LanguageCard(
+                  return ExamCard(
                     title:exam.title,
                     numOfQuestion: exam.numberOfQuestions,
                     quizDuration: exam.duration,
+                    onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ExamView(examId: exam.id ?? '',),
+                      ),
+                    );
+                  },
                   );
                 },
               );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/home_screen.dart';
+import 'package:online_exams/presentation/screens/tabs/explore/exam/view/exam_view.dart';
 import 'package:online_exams/presentation/screens/tabs/profile/view/update_password_view.dart';
 import '../presentation/screens/auth/verifyOtp/view/verify_view.dart';
 import '../presentation/screens/auth/forgetPassword/view/forget_password_view.dart';
@@ -18,7 +19,8 @@ class RoutesManager {
   static const String homeRoute = '/home';
   static const String editProfileRoute = '/editProfile';
   static const String updatePasswordRoute = '/updatePass';
-  static const String languageRoute = '/language';
+  static const String examsRoute = '/exams';
+  static const String examRoute = '/exam';
 
   static Route<dynamic>? router(RouteSettings settings) {
     switch (settings.name) {
@@ -38,8 +40,10 @@ class RoutesManager {
         return MaterialPageRoute(builder: (context) => UpdatePasswordView());
         case homeRoute:
         return MaterialPageRoute(builder: (context) => HomeScreen());
-        case languageRoute:
+        case examsRoute:
         return MaterialPageRoute(builder: (context) => ExamsView(subjectId: '',subjectName: '',));
+        case examRoute:
+        return MaterialPageRoute(builder: (context) => ExamView(examId:''));
     }
     return null;
   }

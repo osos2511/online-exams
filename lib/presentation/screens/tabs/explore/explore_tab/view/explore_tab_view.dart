@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:online_exams/presentation/screens/tabs/explore/widgets/custom_card.dart';
+import 'package:online_exams/presentation/screens/tabs/explore/widgets/custom_subject_card.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../core/constant/Custom_AppBar.dart';
 import '../../exams/view/exams_view.dart';
