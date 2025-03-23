@@ -8,11 +8,11 @@ class ExamScoreScreen extends StatelessWidget {
   final int incorrectAnswers;
 
   const ExamScoreScreen({
-    Key? key,
+    super.key,
     required this.scorePercentage,
     required this.correctAnswers,
     required this.incorrectAnswers,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

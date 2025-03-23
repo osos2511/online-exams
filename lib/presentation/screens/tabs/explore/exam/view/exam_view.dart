@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/exam/viewModel/exam_viewModel.dart';
 import 'package:provider/provider.dart';
 
-import '../../exam_questions/ques_view.dart';
+import '../../questions/view/ques_view.dart';
 
 class ExamView extends StatelessWidget {
   const ExamView({super.key, required this.examId});
@@ -70,7 +70,9 @@ class ExamView extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ExamQuestionsScreen(duration: (exam?.duration ?? 30).toInt()),
+                          builder: (context) => QuesView(
+                              examId: exam?.id??'',
+                              duration: (exam?.duration ?? 30).toInt()),
                         ),
                       );
                     },

@@ -5,6 +5,7 @@ import 'package:online_exams/core/constant/result.dart';
 import 'package:online_exams/data/model/exams_response/ExamsResponse.dart';
 import 'package:online_exams/data/model/password_response/ForgetPasswordResponse.dart';
 import 'package:online_exams/data/model/profile_response/ProfileResponse.dart';
+import 'package:online_exams/data/model/question_response/QuestionsResponse.dart';
 import 'package:online_exams/data/model/subjects_response/SubjectsResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/general_response/GeneralResponse.dart';
@@ -324,4 +325,40 @@ class ApiManager {
     }
 
   }
+
+
+
+
+  static Future<Result<QuestionsResponse>> getAllQuestionsOnExam(String examId)async{
+    String? token = await ApiManager.getToken();
+
+    if (token == null || token.isEmpty) {
+      return Error(exception: Exception("Token is missing or invalid"));
+    }
+    print("Token: $token");
+    final url = Uri.parse('${EndPoints.getAllQuestionsEndPoint}?exam=$examId');
+    try{
+      final response= await http.get(url,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "token": token,
+        }, );
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+      final parsedJson = jsonDecode(response.body);
+      if(response.statusCode==200){
+        return Success(data: QuestionsResponse.fromJson(parsedJson));
+      }else{
+        return ServerError(
+          message: parsedJson["message"] ?? "Failed to fetch user info",
+          code: response.statusCode.toString(),
+        );
+      }
+    }catch (e) {
+      return Error(exception: Exception("Request failed: ${e.toString()}"));
+    }
+
+  }
+
 }

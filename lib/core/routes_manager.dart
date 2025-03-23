@@ -7,8 +7,8 @@ import '../presentation/screens/auth/forgetPassword/view/forget_password_view.da
 import '../presentation/screens/auth/resetPssword/view/reset_password_view.dart';
 import '../presentation/screens/auth/signIn/view/signIn_view.dart';
 import '../presentation/screens/auth/signUp/view/signUp_view.dart';
-import '../presentation/screens/tabs/explore/exam_questions/ques_view.dart';
 import '../presentation/screens/tabs/explore/exams/view/exams_view.dart';
+import '../presentation/screens/tabs/explore/questions/view/ques_view.dart';
 import '../presentation/screens/tabs/profile/view/profile_view.dart';
 import '../presentation/screens/tabs/results/Exam_Score.dart';
 
@@ -49,7 +49,7 @@ class RoutesManager {
         case examRoute:
         return MaterialPageRoute(builder: (context) => ExamView(examId:''));
       case examQuesRoute:
-        return MaterialPageRoute(builder: (context) => ExamQuestionsScreen(duration: 30,));
+        return MaterialPageRoute(builder: (context) => QuesView(duration: 30, examId: '',));
       case resultRoute:
         return MaterialPageRoute(builder: (context) =>ExamScoreScreen(scorePercentage: 80, correctAnswers: 24, incorrectAnswers: 6,));
     }
