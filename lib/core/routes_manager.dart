@@ -7,8 +7,10 @@ import '../presentation/screens/auth/forgetPassword/view/forget_password_view.da
 import '../presentation/screens/auth/resetPssword/view/reset_password_view.dart';
 import '../presentation/screens/auth/signIn/view/signIn_view.dart';
 import '../presentation/screens/auth/signUp/view/signUp_view.dart';
+import '../presentation/screens/tabs/explore/exam_questions/ques_view.dart';
 import '../presentation/screens/tabs/explore/exams/view/exams_view.dart';
 import '../presentation/screens/tabs/profile/view/profile_view.dart';
+import '../presentation/screens/tabs/results/Exam_Score.dart';
 
 class RoutesManager {
   static const String signUpRoute = '/register';
@@ -21,6 +23,8 @@ class RoutesManager {
   static const String updatePasswordRoute = '/updatePass';
   static const String examsRoute = '/exams';
   static const String examRoute = '/exam';
+  static const String examQuesRoute = '/examQues';
+  static const String resultRoute = '/viewResult';
 
   static Route<dynamic>? router(RouteSettings settings) {
     switch (settings.name) {
@@ -44,7 +48,12 @@ class RoutesManager {
         return MaterialPageRoute(builder: (context) => ExamsView(subjectId: '',subjectName: '',));
         case examRoute:
         return MaterialPageRoute(builder: (context) => ExamView(examId:''));
+      case examQuesRoute:
+        return MaterialPageRoute(builder: (context) => ExamQuestionsScreen(duration: 30,));
+      case resultRoute:
+        return MaterialPageRoute(builder: (context) =>ExamScoreScreen(scorePercentage: 80, correctAnswers: 24, incorrectAnswers: 6,));
     }
+
     return null;
   }
 }

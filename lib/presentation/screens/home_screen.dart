@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/explore_tab/view/explore_tab_view.dart';
 import 'package:online_exams/presentation/screens/tabs/profile/view/profile_view.dart';
-import 'package:online_exams/presentation/screens/tabs/results/results_tab.dart';
+import 'package:online_exams/presentation/screens/tabs/results/Exam_Score.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     const ExploreTab(),
-    const ResultsTab(),
+    const ExamScoreScreen(scorePercentage: 80, correctAnswers: 24, incorrectAnswers: 6),
      ProfileView(),
   ];
 

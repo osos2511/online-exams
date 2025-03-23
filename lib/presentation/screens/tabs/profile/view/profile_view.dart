@@ -20,7 +20,7 @@ class ProfileView extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => EditProfileProvider()),
-        ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModel()..getProfileInfo()), // تحميل البيانات عند فتح الشاشة
       ],
       child: Consumer2<EditProfileProvider, ProfileViewModel>(
         builder: (context, editProvider, profileProvider, child) {
@@ -43,21 +43,25 @@ class ProfileView extends StatelessWidget {
                   children: [
                     const ProfileImage(),
                     SizedBox(height: screenHeight * 0.04),
+
+                    /// اسم المستخدم
                     CustomTextFormField(
+                      controller: profileProvider.userNameController,
                       onChanged: editProvider.updateUserName,
                       validator: editProvider.validateUserName,
-                      controller: editProvider.userNameController,
                       hintText: 'User Name',
                       labelText: 'Enter your user name',
                     ),
                     SizedBox(height: screenHeight * 0.02),
+
+                    /// الاسم الأول واسم العائلة
                     Row(
                       children: [
                         Expanded(
                           child: CustomTextFormField(
-                            validator: editProvider.validateFirstName,
+                            controller: profileProvider.firstNameController,
                             onChanged: editProvider.updateFirstName,
-                            controller: editProvider.firstNameController,
+                            validator: editProvider.validateFirstName,
                             hintText: 'Enter first name',
                             labelText: 'First Name',
                           ),
@@ -65,9 +69,9 @@ class ProfileView extends StatelessWidget {
                         SizedBox(width: screenWidth * 0.03),
                         Expanded(
                           child: CustomTextFormField(
-                            validator: editProvider.validateLastName,
-                            controller: editProvider.lastNameController,
+                            controller: profileProvider.lastNameController,
                             onChanged: editProvider.updateLastName,
+                            validator: editProvider.validateLastName,
                             hintText: 'Enter last name',
                             labelText: 'Last Name',
                           ),
@@ -75,20 +79,24 @@ class ProfileView extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.02),
+
+                    /// البريد الإلكتروني
                     CustomTextFormField(
+                      controller: profileProvider.emailController,
+                      onChanged: editProvider.updateEmail,
+                      validator: editProvider.validateEmail,
                       hintText: 'Enter your email',
                       labelText: 'Email',
-                      controller: editProvider.emailController,
-                      validator: editProvider.validateEmail,
-                      onChanged: editProvider.updateEmail,
                     ),
                     SizedBox(height: screenHeight * 0.02),
+
+                    /// كلمة المرور
                     CustomTextFormField(
-                      validator: editProvider.validatePassword,
-                      onChanged: editProvider.updatePassword,
                       controller: editProvider.passwordController,
-                      isSecure: true,
+                      onChanged: editProvider.updatePassword,
+                      validator: editProvider.validatePassword,
                       hintText: 'Enter your password',
+                      isSecure: true,
                       labelText: 'Password',
                       suffixText: 'Change',
                       onSuffixTap: () {
@@ -97,21 +105,24 @@ class ProfileView extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: screenHeight * 0.02),
+
+                    /// رقم الهاتف
                     CustomTextFormField(
-                      validator: editProvider.validatePhoneNumber,
+                      controller: profileProvider.phoneNumberController,
                       onChanged: editProvider.updatePhoneNumber,
-                      controller: editProvider.phoneNumberController,
+                      validator: editProvider.validatePhoneNumber,
                       hintText: 'Enter phone number',
                       labelText: 'Phone Number',
                     ),
                     SizedBox(height: screenHeight * 0.03),
+
+                    /// زر تحديث البيانات
                     CustomMainButton(
                       isButtonEnabled: editProvider.isButtonEnabled,
                       text: 'Update',
                       onPress: () async {
                         if (_formKey.currentState!.validate()) {
-                          // يتم استدعاء getProfileInfo هنا بدون الحاجة للتوكن
-                          await profileProvider.getProfileInfo();
+                          await profileProvider.getProfileInfo(); // تحديث البيانات
                           Navigator.pushReplacementNamed(
                               context, RoutesManager.signInRoute);
                         } else {

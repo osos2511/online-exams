@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:online_exams/presentation/screens/tabs/explore/exam/viewModel/exam_viewModel.dart';
 import 'package:provider/provider.dart';
 
+import '../../exam_questions/ques_view.dart';
+
 class ExamView extends StatelessWidget {
-  const ExamView({super.key, required  this.examId});
-final String examId;
+  const ExamView({super.key, required this.examId});
+  final String examId;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ExamViewModel()..getExamById(examId),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(onPressed: () {
-            Navigator.pop(context);
-          },icon: Icon(Icons.arrow_back_ios),),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios),
+          ),
         ),
-        body:Padding(
+        body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 12),
-
           child: Consumer<ExamViewModel>(
             builder: (context, viewModel, child) {
-
               if (viewModel.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -43,7 +47,7 @@ final String examId;
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              exam?.title??'',
+                              exam?.title ?? '',
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 10),
@@ -57,21 +61,27 @@ final String examId;
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
+                  SizedBox(height: 50),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff02369C),
-                      minimumSize: Size(double.infinity, 60)
+                        backgroundColor: Color(0xff02369C),
+                        minimumSize: Size(double.infinity, 60)),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExamQuestionsScreen(duration: (exam?.duration ?? 30).toInt()),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Start',
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
                     ),
-                      onPressed: (){}, child: Text('Start',style: TextStyle(
-                    color: Colors.white,fontSize: 20,fontWeight: FontWeight.w500
-                  ),)),
+                  ),
                 ],
               );
             },
-
           ),
         ),
       ),

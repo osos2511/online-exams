@@ -41,7 +41,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onChanged: widget.onChanged,
       validator: widget.validator,
       controller: widget.controller,
-      obscureText: _obSecureText,
+      obscureText: widget.isSecure,
       decoration: InputDecoration(
         label: Text(widget.labelText),
         labelStyle: const TextStyle(fontWeight: FontWeight.w500),

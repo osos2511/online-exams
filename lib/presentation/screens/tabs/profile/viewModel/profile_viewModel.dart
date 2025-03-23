@@ -8,7 +8,7 @@ class ProfileViewModel extends ChangeNotifier {
   String? errorMessage;
   ProfileResponse? profileResponse;
 
-  // تعريف متحكمات النصوص الخاصة بالحقول
+  // تعريف المتحكمات الخاصة بالحقول
   TextEditingController userNameController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -20,22 +20,12 @@ class ProfileViewModel extends ChangeNotifier {
     errorMessage = null;
     notifyListeners();
 
-    // جلب التوكن من SharedPreferences
-    String? token = await ApiManager.getToken();
-
-    if (token == null || token.isEmpty) {
-      errorMessage = "Token is missing or invalid.";
-      isLoading = false;
-      notifyListeners();
-      return; // إيقاف العملية إذا كان التوكن مفقودًا
-    }
-
     var result = await ApiManager.getUserInfo();
 
-    // استخدام if للتحقق من نوع النتيجة
     if (result is Success<ProfileResponse>) {
       profileResponse = result.data;
-      // تحديث المتحكمات بالقيم القادمة من الـ API فقط
+
+      // تحديث المتحكمات بالقيم القادمة من API
       userNameController.text = profileResponse?.user?.username ?? '';
       firstNameController.text = profileResponse?.user?.firstName ?? '';
       lastNameController.text = profileResponse?.user?.lastName ?? '';
@@ -53,7 +43,6 @@ class ProfileViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    // تأكد من تحرير المتحكمات عند التخلص منها
     userNameController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
@@ -62,3 +51,4 @@ class ProfileViewModel extends ChangeNotifier {
     super.dispose();
   }
 }
+
